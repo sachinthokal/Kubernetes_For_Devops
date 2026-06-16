@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: database-pod
+  labels:
+    env: production
+spec:
+  containers:
+  - name: mysql
+    image: mysql:5.7
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: "password"
+  tolerations:
+  - key: "app"
+    operator: "Equal"
+    value: "database"
+    effect: "NoSchedule"
