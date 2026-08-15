@@ -5,6 +5,7 @@ metadata:
   labels:
     app: joke-app
     environment: production
+  namespace: joke-app-ns
 spec:
   replicas: 1
   selector:
@@ -27,20 +28,3 @@ spec:
             limits:
               memory: "250Mi"
               cpu: "100m"
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: joke-app-service
-  labels:
-    app: joke-app
-    environment: production
-spec:
-  type: LoadBalancer
-  selector:
-    app: joke-app
-  ports:
-    - protocol: TCP
-      port: 5000
-      targetPort: 5000
