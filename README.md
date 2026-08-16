@@ -1,91 +1,127 @@
-# ☸️ Kubernetes For DevOps - Workspace
+# ☸️ Kubernetes for DevOps — Notes & Hands-on Guide
 
-Welcome to the **Kubernetes For DevOps** repository! This is a centralized workspace containing production-ready Kubernetes manifests, practice labs, deployment configurations, and real-world DevOps integration projects.
+Welcome to the **Kubernetes for DevOps** repository! 🚀  
+This repository serves as a personal knowledge base, hands-on lab guide, and quick reference sheet for learning and mastering **Kubernetes (K8s)** from a DevOps perspective.
+
+---
+
+## 📌 Repository Purpose
+
+* 📖 **Concepts & Architecture:** Clear explanations of core K8s components.
+* 🛠️ **Hands-on Labs:** Practical manifests, exercises, and real-world scenarios.
+* 📝 **Cheat Sheets & Notes:** Quick commands, troubleshooting guides, and best practices.
+* 🧪 **Local Testing:** Manifests ready to run on local clusters (Minikube, Kind, or K3s).
+
+---
+
+## 🗺️ Topics Covered / Learning Roadmap
+
+* [x] **Kubernetes Architecture & Core Concepts** (Control Plane, Worker Nodes, etcd, Kubelet)
+* [x] **Basic Workloads** (Pods, ReplicaSets, Deployments, DaemonSets, StatefulSets)
+* [x] **Networking & Services** (ClusterIP, NodePort, LoadBalancer, Ingress, CNI basics)
+* [x] **Configuration & Storage** (ConfigMaps, Secrets, PersistentVolumes, PVCs, StorageClasses)
+* [x] **Application Health & Probes** (Liveness, Readiness, Startup Probes)
+* [x] **Security & Access Control** (RBAC, ServiceAccounts, Network Policies)
+* [x] **Resource Management** (Requests, Limits, ResourceQuotas, LimitRanges)
+* [x] **Package Management** (Helm Basics & Chart Structure)
+* [x] **Troubleshooting & Debugging** (Pod crashes, logs, events, networking issues)
 
 ---
 
 ## 📂 Repository Structure
 
-This repository is organized into distinct project folders and practice modules:
-
 ```text
-Kubernetes_For_Devops/
-├── K8s_Vault_Sync_App/k8s/         # Azure Key Vault + Secrets Store CSI Driver integration
-├── Joke_App/k8s/               # Kubernetes manifests for Joke App deployment
-├── Message_Viewer_App/k8s/     # Kubernetes manifests for Message Viewer App
-├── Simple_Practice_Manifest/  # Basic K8s resources (Pods, Deployments, Services, ConfigMaps)
-└── Notes/                      # Learning notes, commands, and troubleshooting guides
+.
+├── 01-architecture/         # Architecture notes and component breakdowns
+├── 02-workloads/            # Pods, Deployments, Jobs, CronJobs manifests
+├── 03-services-networking/  # Service types, Ingress, NetworkPolicies
+├── 04-config-and-secrets/   # ConfigMaps and Secrets examples
+├── 05-storage/              # PV, PVC, StorageClass hands-on
+├── 06-rbac-security/        # Roles, RoleBindings, ServiceAccounts
+├── 07-troubleshooting/      # Debugging scenarios, issue resolution notes
+└── cheatsheets/             # kubectl command cheat sheets & quick tips
 
 ```
 
 ---
 
-## 🚀 Featured Projects & Modules
+## ⚡ Quick Start / Local Lab Setup
 
-### 🔐 1. K8s Vault Sync App (`/K8s_Vault_Sync_App`)
+To practice the manifests in this repo, set up a local cluster using any of the following:
 
-* **Description:** Integration of Azure Key Vault with Kubernetes using Secrets Store CSI Driver.
-* **Key Features:** Mounts secrets securely as volumes into pods without exposing sensitive credentials.
-* **Main Files:** `secret-provider-class.yaml`, `azure-creds-secret.yaml`, `deployment.yaml`
-
-### 🎭 2. Joke App (`/Joke_App/k8s`)
-
-* **Description:** Kubernetes deployment manifests for a containerized web application.
-* **Main Files:** Deployment & Service configurations.
-
-### ✉️ 3. Message Viewer App (`/Message_Viewer_App/k8s`)
-
-* **Description:** Kubernetes setups for message viewer microservice testing.
-
-### 🛠️ 4. Simple Practice Manifests (`/Simple_Practice_Manifest`)
-
-* **Description:** Fundamental Kubernetes manifests covering basic objects like Deployments, NodePort/ClusterIP Services, Namespaces, and Volumes.
-
----
-
-## ⚙️ Prerequisites & Tools Used
-
-To practice or apply the manifests in this repository, you will need:
-
-* **Kubernetes Cluster:** KinD (Kubernetes in Docker), Minikube, or AKS/EKS/GKE
-* **CLI Tools:** `kubectl`, `helm`, `docker`
-* **Cloud Platform:** Azure (for Key Vault integration labs)
-
----
-
-## 🛠️ How to Use These Manifests
-
-1. **Clone this repository:**
+### Using Minikube
 
 ```bash
-git clone [https://github.com/sachinthokal/Kubernetes_For_Devops.git](https://github.com/sachinthokal/Kubernetes_For_Devops.git)
-cd Kubernetes_For_Devops
+minikube start --driver=docker
+kubectl get nodes
 
 ```
 
-1. **Navigate to the specific project directory:**
+### Using Kind (Kubernetes in Docker)
 
 ```bash
-cd K8s_Vault_Sync_App/K8s
-
-```
-
-1. **Apply the manifests:**
-
-```bash
-kubectl apply -f .
+kind create cluster --name k8s-devops
+kubectl cluster-info --context kind-k8s-devops
 
 ```
 
 ---
 
-## ✍️ Author & Maintenance
+## 📋 Essential `kubectl` Cheat Sheet
 
-* **Maintained by:** Sachin Thokal
-* **GitHub:** [@sachinthokal](https://www.google.com/search?q=https%3A%2F%2Fgithub.com%2Fsachinthokal)
+### Cluster & Node Info
+
+```bash
+kubectl cluster-info
+kubectl get nodes -o wide
+kubectl describe node <node-name>
+
+```
+
+### Pod & Deployment Management
+
+```bash
+# Get all running pods with namespaces
+kubectl get pods -A
+
+# Create a deployment
+kubectl create deployment my-app --image=nginx --replicas=3
+
+# Scale a deployment
+kubectl scale deployment my-app --replicas=5
+
+# Rollout status & history
+kubectl rollout status deployment/my-app
+kubectl rollout history deployment/my-app
+kubectl rollout undo deployment/my-app
+
+```
+
+### Troubleshooting & Logs
+
+```bash
+# Check pod events & status details
+kubectl describe pod <pod-name>
+
+# View real-time logs
+kubectl logs -f <pod-name>
+kubectl logs -f <pod-name> -c <container-name> # for multi-container pods
+
+# Execute command inside a pod
+kubectl exec -it <pod-name> -- /bin/sh
+
+```
 
 ---
 
-*Happy Kubernetes Learning & Shipping! 🚀*
+## 🔗 Related Repositories
+
+* **GitOps & Production Manifests:** [argocd-for-devops](https://github.com/sachinthokal/argocd-for-devops) — Automated deployments and environment overlays via ArgoCD.
+
+---
+
+## ✍️ Author & Notes
+
+Maintained by **Sachin Thokal** as a continuous learning reference for DevOps and Cloud Engineering. Feel free to star ⭐ the repo if you find these notes helpful!
 
 ---
